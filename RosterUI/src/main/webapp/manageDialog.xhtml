@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+
+        <p:dialog id="manageDialog" widgetVar="manageDialog"  resizable="false"
+                  modal="true"
+                  position="center" style="z-index: 999999;"  width="75%" height="90%"
+                  fitViewport="true" responsive="true"
+                  showEffect="slide" hideEffect="explode" closable="false"
+                  header="Add Player">
+            <h:form id="managePlayerForm">
+
+                <p:panelGrid columns="2">
+                    <p:outputLabel for="firstName" value="First Name:"/>
+                    <p:inputText id="firstName" value="#{rosterController.current.firstName}"/>
+
+                    <p:outputLabel for="lastName" value="Last Name:"/>
+                    <p:inputText id="lastName" value="#{rosterController.current.lastName}"/>
+
+                    <p:outputLabel for="position" value="Position:"/>
+                    <p:inputText id="position" value="#{rosterController.current.position}"/>
+                </p:panelGrid>
+                <p:commandButton id="addPlayerAction"
+                                 actionListener="#{rosterController.addPlayer}"
+                                 rendered="#{!rosterController.managePlayer}"
+                                 oncomplete="PF('manageDialog').hide();"
+                                 update="indexForm, messages"
+                                 value="Add"/>
+                
+                <p:commandButton id="managePlayerAction"
+                                 actionListener="#{rosterController.updatePlayer}"
+                                 rendered="#{rosterController.managePlayer}"
+                                 oncomplete="PF('manageDialog').hide();"
+                                 update="indexForm, messages"
+                                 value="Update"/>
+                <br/>
+                <p:commandButton id="backButton"
+                                 actionListener="#{rosterController.cancelAction}"
+                                 onclick="PF('manageDialog').hide();"
+                                 value="Back"/>
+
+            </h:form>
+
+
+        </p:dialog>
+
+
+    </h:body>
+</html>
+

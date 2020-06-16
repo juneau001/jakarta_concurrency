@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        Hello from Facelets
+        <h:form id="indexForm">
+            <h:messages id="messages" globalOnly="true"/>
+            <h:dataTable id="rosterTable" value="#{rosterController.rosterList}"
+                         border="1"
+                         var="player">
+                <h:column>
+                    <f:facet name="header">
+                        Position
+                    </f:facet>
+                    <h:outputText value="#{player.position}"/>
+
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Enter Date
+                    </f:facet>
+                    <h:outputText value="#{player.enterDate}">
+                        <f:convertDateTime  dateStyle="short"  />
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        First Name
+                    </f:facet>
+                    <h:outputText value="#{player.firstName}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Last Name
+                    </f:facet>
+                    <h:outputText value="#{player.lastName}"/>
+                </h:column>
+                <h:column> 
+                    <h:commandButton id="removeAction"
+                                     actionListener="#{rosterController.remove(player)}"
+                                     value="Remove">
+                        <f:ajax event="click"
+                                listener="#{rosterController.clear}"
+                                render="indexForm:messages,indexForm:rosterTable"/>
+                    </h:commandButton>
+                       
+                </h:column>
+            </h:dataTable>
+            
+            <h:commandButton id="addPlayer" action="add" value="Add"/>
+        </h:form>
+    </h:body>
+</html>
+

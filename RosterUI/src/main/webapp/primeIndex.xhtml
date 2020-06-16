@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:include src="manageDialog.xhtml"/>
+        <p:messages id="messages"/>
+        <h:form id="indexForm">
+            <p:dataTable id="rosterTable" value="#{rosterController.rosterList}"
+
+                         var="player">
+                <p:column headerText="Position">
+
+                    <h:outputText value="#{player.position}"/>
+
+                </p:column>
+                <p:column headerText="Enter Date">
+
+                    <h:outputText value="#{player.enterDate}">
+                        <f:convertDateTime  dateStyle="short"  />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="First Name">
+
+                    <h:outputText value="#{player.firstName}"/>
+                </p:column>
+                <p:column headerText="Last Name">
+
+                    <h:outputText value="#{player.lastName}"/>
+                </p:column>
+                <p:column headerText="Action">
+                    <p:commandButton id="removeAction"
+                                     actionListener="#{rosterController.remove(player)}"
+                                     update="rosterTable, messages"
+                                     value="Remove">
+                        <p:confirm header="Confirmation"
+                                   message="Are you sure you wish to remove player?"
+                                   icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
+
+                    <p:commandButton id="manageAction"
+                                     actionListener="#{rosterController.manage(player)}"
+                                     oncomplete="PF('manageDialog').show();"
+                                     update="managePlayerForm, rosterTable, messages"
+                                     value="Manage"/>
+                </p:column>
+            </p:dataTable>
+            <br/>
+            <p:commandButton id="addPlayer"
+                             onclick="PF('manageDialog').show();"
+                             value="Add"/>
+            
+            <p:commandButton id="rosterReport"
+                             actionListener="#{rosterController.invokeRosterReport}"
+                             value="Roster Report"/>
+            
+            <p:commandButton id="threaddedRosterReport"
+                             actionListener="#{rosterController.invokeThreaddedRosterReport()}"
+                             value="Roster Report Threadded"/>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+            </p:confirmDialog>  
+        </h:form>
+    </h:body>
+</html>
+
