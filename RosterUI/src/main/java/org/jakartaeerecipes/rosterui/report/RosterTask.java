@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Callable;
-import javax.enterprise.concurrent.ManagedTask;
-import javax.enterprise.concurrent.ManagedTaskListener;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
+import jakarta.enterprise.concurrent.ManagedTask;
+import jakarta.enterprise.concurrent.ManagedTaskListener;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.GenericType;
 import org.jakartaeerecipes.rosterui.constants.Constants;
 import org.jakartaeerecipes.rosterui.model.Roster;
 import org.jakartaeerecipes.rosterui.model.Team;
@@ -41,13 +41,13 @@ public class RosterTask implements Callable<RosterInfo>, ManagedTask {
         resource = Utilities.obtainClient(Constants.ROSTER_URI, "team");
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{teamId}));
         Team team = null;
-        team = (resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML)
+        team = (resource.request(jakarta.ws.rs.core.MediaType.APPLICATION_XML)
                 .get(new GenericType<Team>() {
                 }));
         resource = Utilities.obtainClient(Constants.ROSTER_URI, "roster");
         resource = resource.path(java.text.MessageFormat.format("findByTeam/{0}", new Object[]{teamId}));
         List<Roster> playerList = null;
-        playerList = (resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML)
+        playerList = (resource.request(jakarta.ws.rs.core.MediaType.APPLICATION_XML)
                 .get(new GenericType<List<Roster>>() {
                 }));
        

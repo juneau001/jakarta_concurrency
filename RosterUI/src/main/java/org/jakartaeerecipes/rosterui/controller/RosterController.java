@@ -7,21 +7,21 @@ package org.jakartaeerecipes.rosterui.controller;
 
 import java.util.List;
 import java.util.concurrent.Future;
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.enterprise.concurrent.ManagedExecutorService;
-import javax.enterprise.concurrent.ManagedThreadFactory;
-import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
+import jakarta.enterprise.concurrent.ManagedExecutorService;
+import jakarta.enterprise.concurrent.ManagedThreadFactory;
+import jakarta.faces.event.AjaxBehaviorEvent;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jakartaeerecipes.rosterui.constants.Constants;
@@ -81,7 +81,7 @@ public class RosterController implements java.io.Serializable {
     public void populateRosterList() {
         resource = Utilities.obtainClient(Constants.ROSTER_URI, "roster").path("findAll");
         System.out.println(resource.getUri());
-        setRosterList(resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML)
+        setRosterList(resource.request(jakarta.ws.rs.core.MediaType.APPLICATION_XML)
                 .get(new GenericType<List<Roster>>() {
                 }));
     }
@@ -94,7 +94,7 @@ public class RosterController implements java.io.Serializable {
     public void findById(int id) {
         resource = Utilities.obtainClient(Constants.ROSTER_URI, "roster");
         resource = resource.path(java.text.MessageFormat.format("findById/{0}", new Object[]{id}));
-        current = resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML)
+        current = resource.request(jakarta.ws.rs.core.MediaType.APPLICATION_XML)
                 // .cookie(HttpHeaders.AUTHORIZATION, authenticationController.getSessionToken())
                 .get(
                         new GenericType<Roster>() {
