@@ -1,15 +1,16 @@
 package org.jakartaeerecipes.rosterservice;
 
 import java.util.Set;
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
+import org.jakartaeerecipes.rosterservice.resources.JakartaEEResource;
 
 /**
  * Configures JAX-RS for the application.
  * @author Juneau
  */
 @ApplicationPath("resources")
-public class JAXRSConfiguration extends Application {
+public class JakartaRestConfiguration extends Application {
     @Override
     public Set<Class<?>> getClasses() {
 
@@ -24,7 +25,7 @@ public class JAXRSConfiguration extends Application {
      * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(org.jakartaeerecipes.rosterservice.resources.JavaEE8Resource.class);
+        resources.add(JakartaEEResource.class);
         resources.add(org.jakartaeerecipes.rosterservice.service.RosterFacadeREST.class);
         resources.add(org.jakartaeerecipes.rosterservice.service.TeamFacadeREST.class);
     }
