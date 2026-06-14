@@ -2,8 +2,8 @@
 package org.jakartaeerecipes.rosterui.report;
 
 import java.util.concurrent.Future;
-import javax.enterprise.concurrent.ManagedExecutorService;
-import javax.enterprise.concurrent.ManagedTaskListener;
+import jakarta.enterprise.concurrent.ManagedExecutorService;
+import jakarta.enterprise.concurrent.ManagedTaskListener;
 
 /**
  *

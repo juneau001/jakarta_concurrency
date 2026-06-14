@@ -7,8 +7,8 @@ package org.jakartaeerecipes.rosterui.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  *

@@ -1,0 +1,15 @@
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterUI/src/main/java/org/jakartaeerecipes/rosterui/JAXRSConfiguration.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterUI/src/main/java/org/jakartaeerecipes/rosterui/constants/Constants.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterUI/src/main/java/org/jakartaeerecipes/rosterui/controller/RosterController.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterUI/src/main/java/org/jakartaeerecipes/rosterui/model/Roster.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterUI/src/main/java/org/jakartaeerecipes/rosterui/model/Team.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterUI/src/main/java/org/jakartaeerecipes/rosterui/report/BuilderServlet.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterUI/src/main/java/org/jakartaeerecipes/rosterui/report/CustomManagedTaskListener.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterUI/src/main/java/org/jakartaeerecipes/rosterui/report/ReportRunnable.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterUI/src/main/java/org/jakartaeerecipes/rosterui/report/ReportRunnableTransaction.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterUI/src/main/java/org/jakartaeerecipes/rosterui/report/RosterInfo.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterUI/src/main/java/org/jakartaeerecipes/rosterui/report/RosterRunnable.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterUI/src/main/java/org/jakartaeerecipes/rosterui/report/RosterTask.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterUI/src/main/java/org/jakartaeerecipes/rosterui/report/ScheduledRosterReportRunner.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterUI/src/main/java/org/jakartaeerecipes/rosterui/resources/JavaEE8Resource.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterUI/src/main/java/org/jakartaeerecipes/rosterui/utilities/Utilities.java

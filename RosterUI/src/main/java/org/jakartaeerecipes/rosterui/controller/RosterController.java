@@ -5,23 +5,25 @@
  */
 package org.jakartaeerecipes.rosterui.controller;
 
+import java.io.Serial;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.enterprise.concurrent.ManagedExecutorService;
-import javax.enterprise.concurrent.ManagedThreadFactory;
-import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
+import jakarta.enterprise.concurrent.ManagedExecutorService;
+import jakarta.enterprise.concurrent.ManagedThreadFactory;
+import jakarta.faces.event.AjaxBehaviorEvent;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jakartaeerecipes.rosterui.constants.Constants;
@@ -38,16 +40,18 @@ import org.jakartaeerecipes.rosterui.utilities.Utilities;
 @ViewScoped
 public class RosterController implements java.io.Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Resource
     private ManagedExecutorService mes;
     
     @Resource
     private ManagedThreadFactory mtf;
     
-    Thread rosterThread = null;
+    private transient Thread rosterThread;
 
-    private static Logger log = LogManager.getLogger();
-    private WebTarget resource;
+    private static final Logger log = LogManager.getLogger();
 
     private List<Roster> rosterList;
 
@@ -72,16 +76,16 @@ public class RosterController implements java.io.Serializable {
      *
      */
     public void refreshRosterList() {
-
+        populateRosterList();
     }
 
     /**
      * Populate the List<Roster>.
      */
     public void populateRosterList() {
-        resource = Utilities.obtainClient(Constants.ROSTER_URI, "roster").path("findAll");
-        System.out.println(resource.getUri());
-        setRosterList(resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML)
+        setRosterList(Utilities.obtainClient(Constants.ROSTER_URI, "roster")
+                .path("findAll")
+                .request(MediaType.APPLICATION_XML)
                 .get(new GenericType<List<Roster>>() {
                 }));
     }
@@ -92,9 +96,9 @@ public class RosterController implements java.io.Serializable {
      * @param id
      */
     public void findById(int id) {
-        resource = Utilities.obtainClient(Constants.ROSTER_URI, "roster");
-        resource = resource.path(java.text.MessageFormat.format("findById/{0}", new Object[]{id}));
-        current = resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML)
+        WebTarget resource = Utilities.obtainClient(Constants.ROSTER_URI, "roster")
+                .path(java.text.MessageFormat.format("findById/{0}", new Object[]{id}));
+        current = resource.request(MediaType.APPLICATION_XML)
                 // .cookie(HttpHeaders.AUTHORIZATION, authenticationController.getSessionToken())
                 .get(
                         new GenericType<Roster>() {
@@ -103,7 +107,7 @@ public class RosterController implements java.io.Serializable {
 
     public String addPlayer() {
         String returnPage = null;
-        resource = Utilities.obtainClient(Constants.ROSTER_URI, "roster").path("add");
+        WebTarget resource = Utilities.obtainClient(Constants.ROSTER_URI, "roster").path("add");
         Form form = new Form();
         form.param("firstName", current.getFirstName().toUpperCase());
         form.param("lastName", current.getLastName().toUpperCase());
@@ -125,8 +129,8 @@ public class RosterController implements java.io.Serializable {
     }
 
     public void remove(Roster player) {
-        resource = Utilities.obtainClient(Constants.ROSTER_URI, "roster");
-        resource = resource.path(java.text.MessageFormat.format("/{0}", new Object[]{player.getId()}));
+        WebTarget resource = Utilities.obtainClient(Constants.ROSTER_URI, "roster")
+                .path(java.text.MessageFormat.format("/{0}", new Object[]{player.getId()}));
         try {
             resource.request().delete();
 
@@ -139,8 +143,8 @@ public class RosterController implements java.io.Serializable {
     }
 
     public void updatePlayer() {
-        resource = Utilities.obtainClient(Constants.ROSTER_URI, "roster");
-        resource = resource.path(java.text.MessageFormat.format("/{0}", new Object[]{current.getId()}));
+        WebTarget resource = Utilities.obtainClient(Constants.ROSTER_URI, "roster")
+                .path(java.text.MessageFormat.format("/{0}", new Object[]{current.getId()}));
 
         Response response
                 = resource.request().put(Entity.entity(current, MediaType.APPLICATION_XML));
@@ -172,25 +176,27 @@ public class RosterController implements java.io.Serializable {
 
     public void invokeRosterReport() {
         ReportRunnable rosterReport = new ReportRunnable("RosterReport");
-        /*
-             * Typically, the Future object should be cached somewhere and then
-             * polled periodically to retrieve status of the task
-         */
-        Future reportFuture = mes.submit(rosterReport);
-        while (!reportFuture.isDone()) {
-            System.out.println("Running...");
-        }
-        if (reportFuture.isDone()) {
-            System.out.println("Report Complete");
-
+        Future<?> reportFuture = mes.submit(rosterReport);
+        try {
+            reportFuture.get();
+            Utilities.addSuccessMessage("Roster report complete");
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+            log.error("Roster report interrupted", ex);
+            Utilities.addErrorMessage("Roster report interrupted");
+        } catch (ExecutionException ex) {
+            log.error("Roster report failed", ex);
+            Utilities.addErrorMessage("Roster report failed");
         }
     }
     
-    public void invokeThreaddedRosterReport(){
+    public void invokeThreaddedRosterReport() {
         RosterRunnable rosterReport = new RosterRunnable();
 
-        rosterThread =mtf.newThread(rosterReport);
+        rosterThread = mtf.newThread(rosterReport);
+        rosterThread.setName("roster-report-thread");
         rosterThread.start();
+        Utilities.addSuccessMessage("Threaded roster report started");
     }
 
     /**

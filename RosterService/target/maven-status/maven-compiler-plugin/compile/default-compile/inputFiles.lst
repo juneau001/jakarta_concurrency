@@ -1,0 +1,7 @@
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterService/src/main/java/org/jakartaeerecipes/rosterservice/JAXRSConfiguration.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterService/src/main/java/org/jakartaeerecipes/rosterservice/entity/Roster.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterService/src/main/java/org/jakartaeerecipes/rosterservice/entity/Team.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterService/src/main/java/org/jakartaeerecipes/rosterservice/resources/JavaEE8Resource.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterService/src/main/java/org/jakartaeerecipes/rosterservice/service/AbstractFacade.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterService/src/main/java/org/jakartaeerecipes/rosterservice/service/RosterFacadeREST.java
+/home/runner/work/jakarta_concurrency/jakarta_concurrency/juneau001/jakarta_concurrency/RosterService/src/main/java/org/jakartaeerecipes/rosterservice/service/TeamFacadeREST.java

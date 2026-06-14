@@ -6,29 +6,31 @@
 package org.jakartaeerecipes.rosterui.utilities;
 
 import java.util.List;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.WebTarget;
 
 /**
  *
  * @author juneau
  */
 public final class Utilities {
-    
-    public Utilities(){
-        
-    }
-    
-    public static WebTarget obtainClient(String clientUri, String clientService) {
-        Client client = ClientBuilder.newClient();
 
-        WebTarget resource = client.target(clientUri).path(clientService);
-        return resource;
+    private static final Client CLIENT = ClientBuilder.newClient();
+
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(CLIENT::close, "roster-rest-client-shutdown"));
     }
-    
+
+    private Utilities() {
+    }
+
+    public static WebTarget obtainClient(String clientUri, String clientService) {
+        return CLIENT.target(clientUri).path(clientService);
+    }
+
     public static void addErrorMessage(Exception ex, String defaultMsg) {
         String msg = ex.getLocalizedMessage();
         if (msg != null && msg.length() > 0) {
@@ -37,7 +39,7 @@ public final class Utilities {
             addErrorMessage(defaultMsg);
         }
     }
-    
+
     public static void addErrorMessages(List<String> messages) {
         for (String message : messages) {
             addErrorMessage(message);
