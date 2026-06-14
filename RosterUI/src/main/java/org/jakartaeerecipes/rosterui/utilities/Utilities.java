@@ -20,6 +20,10 @@ public final class Utilities {
 
     private static final Client CLIENT = ClientBuilder.newClient();
 
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(CLIENT::close, "roster-rest-client-shutdown"));
+    }
+
     private Utilities() {
     }
 

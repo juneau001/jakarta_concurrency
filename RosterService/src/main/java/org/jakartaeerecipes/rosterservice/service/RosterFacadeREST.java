@@ -21,8 +21,10 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jakartaeerecipes.rosterservice.entity.Roster;
@@ -39,6 +41,9 @@ public class RosterFacadeREST extends AbstractFacade<Roster> {
 
     @PersistenceContext(unitName = "my_persistence_unit")
     private EntityManager em;
+
+    @Context
+    private UriInfo uriInfo;
 
     public RosterFacadeREST() {
         super(Roster.class);
@@ -64,7 +69,11 @@ public class RosterFacadeREST extends AbstractFacade<Roster> {
 
         super.create(player);
         log.info("Created roster entry for {} {}", firstName, lastName);
-        return Response.status(Response.Status.CREATED).entity(player).build();
+        return Response.created(uriInfo.getAbsolutePathBuilder()
+                .path(String.valueOf(player.getId()))
+                .build())
+                .entity(player)
+                .build();
     }
 
     @PUT
@@ -105,11 +114,11 @@ public class RosterFacadeREST extends AbstractFacade<Roster> {
     @GET
     @Path("findByTeam/{team_id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Roster> findByTeam(@PathParam("team_id") Integer teamId) {
+    public List<Roster> findByTeam(@PathParam("team_id") BigDecimal teamId) {
         TypedQuery<Roster> rosterQuery = em.createQuery(
                 "SELECT o FROM Roster o WHERE o.team.id = :teamId ORDER BY o.lastName, o.firstName",
                 Roster.class);
-        return rosterQuery.setParameter("teamId", teamId).getResultList();
+        return rosterQuery.setParameter("teamId", teamId.intValueExact()).getResultList();
     }
 
     @GET
