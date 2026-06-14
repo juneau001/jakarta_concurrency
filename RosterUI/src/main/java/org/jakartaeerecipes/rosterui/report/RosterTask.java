@@ -35,12 +35,12 @@ public class RosterTask implements Callable<RosterInfo>, ManagedTask {
                 .path(java.text.MessageFormat.format("{0}", new Object[]{teamId}))
                 .request(MediaType.APPLICATION_XML)
                 .get(new GenericType<Team>() {
-                }));
+                });
         List<Roster> playerList = Utilities.obtainClient(Constants.ROSTER_URI, "roster")
                 .path(java.text.MessageFormat.format("findByTeam/{0}", new Object[]{teamId}))
                 .request(MediaType.APPLICATION_XML)
                 .get(new GenericType<List<Roster>>() {
-                }));
+                });
 
         return new RosterInfo(team.getName(), playerList);
     }
