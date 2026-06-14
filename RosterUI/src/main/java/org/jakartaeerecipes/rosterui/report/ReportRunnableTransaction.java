@@ -7,16 +7,16 @@ package org.jakartaeerecipes.rosterui.report;
 
 import java.util.List;
 import java.util.logging.Level;
-import javax.annotation.Resource;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
+import jakarta.annotation.Resource;
+import jakarta.transaction.HeuristicMixedException;
+import jakarta.transaction.HeuristicRollbackException;
 
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
+import jakarta.transaction.NotSupportedException;
+import jakarta.transaction.RollbackException;
+import jakarta.transaction.SystemException;
+import jakarta.transaction.UserTransaction;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.GenericType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jakartaeerecipes.rosterui.constants.Constants;
@@ -69,7 +69,7 @@ public class ReportRunnableTransaction implements Runnable {
         // Web Service Call
         resource = Utilities.obtainClient(Constants.ROSTER_URI, "roster").path("findAll");
        
-        setRosterList(resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML)
+        setRosterList(resource.request(jakarta.ws.rs.core.MediaType.APPLICATION_XML)
                 .get(new GenericType<List<Roster>>() {
                 }));
         rosterList.stream().forEach(r -> System.out.println(r.getFirstName() + " " + r.getLastName() + " - " + r.getPosition()));

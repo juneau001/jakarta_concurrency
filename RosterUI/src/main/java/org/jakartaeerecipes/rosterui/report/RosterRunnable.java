@@ -6,8 +6,8 @@
 package org.jakartaeerecipes.rosterui.report;
 
 import java.util.List;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jakartaeerecipes.rosterui.constants.Constants;
@@ -20,8 +20,7 @@ import org.jakartaeerecipes.rosterui.utilities.Utilities;
  */
 public class RosterRunnable implements Runnable {
 
-    private static Logger log = LogManager.getLogger();
-    private WebTarget resource;
+    private static final Logger log = LogManager.getLogger();
     private List<Roster> rosterList;
 
     public RosterRunnable() {
@@ -39,13 +38,12 @@ public class RosterRunnable implements Runnable {
      * Invokes web service to return roster list.
      */
     protected void obtainRoster() {
-        // Web Service Call
-        resource = Utilities.obtainClient(Constants.ROSTER_URI, "roster").path("findAll");
-       
-        setRosterList(resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML)
+        setRosterList(Utilities.obtainClient(Constants.ROSTER_URI, "roster")
+                .path("findAll")
+                .request(MediaType.APPLICATION_XML)
                 .get(new GenericType<List<Roster>>() {
                 }));
-        rosterList.stream().forEach(r -> System.out.println(r.getFirstName() + " " + r.getLastName() + " - " + r.getPosition()));
+        rosterList.forEach(r -> log.info("{} {} - {}", r.getFirstName(), r.getLastName(), r.getPosition()));
     }
 
     /**

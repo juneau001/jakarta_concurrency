@@ -2,21 +2,20 @@ package org.jakartaeerecipes.rosterui.report;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Resource;
-import javax.enterprise.concurrent.ManagedExecutorService;
-import javax.servlet.Servlet;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.annotation.Resource;
+import jakarta.enterprise.concurrent.ManagedExecutorService;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.jakartaeerecipes.rosterui.model.Roster;
 
 @WebServlet(name = "BuilderServlet", urlPatterns = {"/builderServlet"})
@@ -32,32 +31,24 @@ public class BuilderServlet extends HttpServlet implements Servlet {
         try {
             PrintWriter out = resp.getWriter();
             // Create the task instances
-            ArrayList<Callable<RosterInfo>> builderTasks = new ArrayList<Callable<RosterInfo>>();
-            builderTasks.add(new RosterTask(1));
-            builderTasks.add(new RosterTask(2));
+            List<Callable<RosterInfo>> builderTasks = List.of(
+                    new RosterTask(1),
+                    new RosterTask(2));
 
             // Submit the tasks and wait.
             List<Future<RosterInfo>> taskResults = mes.invokeAll(builderTasks);
-            ArrayList<RosterInfo> results = new ArrayList<RosterInfo>();
+            List<RosterInfo> results = new java.util.ArrayList<>();
             for (Future<RosterInfo> result : taskResults) {
                 out.write("Processing Results...");
-                while (!result.isDone()) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
                 results.add(result.get());
-
             }
             out.write("** Results Processed Successfully **");
             for (RosterInfo result : results) {
                 if (result != null) {
                     System.out.println("===========================");
-                    System.out.println("Team: " + result.team);
+                    System.out.println("Team: " + result.team());
                     System.out.println("===========================");
-                    for(Roster roster:result.players){
+                    for (Roster roster : result.players()) {
                         System.out.println(roster.getFirstName() + " " +
                                 roster.getLastName() + " - " + roster.getPosition());
                     }
