@@ -45,7 +45,6 @@ public class RosterTask implements Callable<RosterInfo>, ManagedTask {
         return new RosterInfo(team.getName(), playerList);
     }
 
-    @Override
     public String getIdentityName() {
         return "RosterTask: TeamID=" + teamId;
     }
