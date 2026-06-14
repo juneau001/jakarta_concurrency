@@ -2,6 +2,7 @@ package org.jakartaeerecipes.rosterui.report;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -37,7 +38,7 @@ public class BuilderServlet extends HttpServlet implements Servlet {
 
             // Submit the tasks and wait.
             List<Future<RosterInfo>> taskResults = mes.invokeAll(builderTasks);
-            List<RosterInfo> results = new java.util.ArrayList<>();
+            List<RosterInfo> results = new ArrayList<>();
             for (Future<RosterInfo> result : taskResults) {
                 out.write("Processing Results...");
                 results.add(result.get());
