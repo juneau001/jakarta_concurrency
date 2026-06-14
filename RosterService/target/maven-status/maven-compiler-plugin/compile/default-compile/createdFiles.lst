@@ -1,0 +1,7 @@
+org/jakartaeerecipes/rosterservice/service/TeamFacadeREST.class
+org/jakartaeerecipes/rosterservice/service/RosterFacadeREST.class
+org/jakartaeerecipes/rosterservice/entity/Team.class
+org/jakartaeerecipes/rosterservice/service/AbstractFacade.class
+org/jakartaeerecipes/rosterservice/JAXRSConfiguration.class
+org/jakartaeerecipes/rosterservice/entity/Roster.class
+org/jakartaeerecipes/rosterservice/resources/JavaEE8Resource.class
